@@ -1,9 +1,14 @@
 from flask import Flask
+from flask import request
+from flask import make_response
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return '<h1>Hello World!</h1>'
+    user_agent = request.headers.get('User-Agent')
+    response = make_response('<p>Your browser is %s</p>' % user_agent)
+    response.set_cookie('answer', '42')
+    return response
 
 @app.route('/user/<name>')
 def user(name):
